@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanya untuk Kamu 🤍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        softpink: '#fce4ec',
+                        rose: '#f8bbd0',
+                        deeprose: '#f48fb1',
+                        mauve: '#880e4f',
+                    },
+                    fontFamily: {
+                        romantis: ['"Georgia"', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            color: #880e4f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd050 50%, #fce4ec 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .hati-latar {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(244, 143, 177, 0.15);
+            animation: naikTurun 15s infinite ease-in-out;
+            pointer-events: none;
+        }
+        @keyframes naikTurun {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* === ANIMASI DI TENGAH & PALING DEPAN === */
+        .wadah-animasi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .animasi-love {
+            position: absolute;
+            font-size: 28px;
+            color: #f48fb1;
+            opacity: 0;
+            animation: loveTengah 2s ease-out forwards;
+        }
+        @keyframes loveTengah {
+            0% { transform: scale(0) translateY(0); opacity: 1; }
+            50% { opacity: 1; transform: scale(1.3) translateY(-20px); }
+            100% { transform: scale(0.8) translateY(-80px); opacity: 0; }
+        }
+        /* === ANIMASI SEDIH DENGAN EMOJI 😭 === */
+        .animasi-sedih {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0;
+            animation: sedihTengah 2.5s ease-in forwards;
+        }
+        @keyframes sedihTengah {
+            0% { transform: translateY(-30px) scale(0.8); opacity: 1; }
+            50% { transform: translateY(0) scale(1.1); opacity: 1; }
+            100% { transform: translateY(60px) scale(0.9); opacity: 0; }
+        }
+
+        .glass {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(18px);
+            border-radius: 32px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(244, 143, 177, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 28px;
+            width: 100%;
+            max-width: 460px;
+        }
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @keyframes munculLembut {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes melayang {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes denyutLembut {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .animasi-masuk { animation: munculLembut 0.8s ease-out forwards; }
+        .animasi-layang { animation: melayang 3.5s ease-in-out infinite; }
+        .animasi-denyut { animation: denyutLembut 2.5s ease-in-out infinite; }
+
+        .pilihan {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-jawab {
+            padding: 14px 36px;
+            border-radius: 999px;
+            border: 2px solid rgba(244, 143, 177, 0.6);
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.5px;
+            background: rgba(248, 187, 208, 0.35);
+            color: #880e4f;
+            opacity: 1;
+        }
+        .btn-jawab:hover {
+            transform: translateY(-2px);
+            background: rgba(248, 187, 208, 0.5);
+        }
+
+        .btn-dipilih-ya {
+            background: rgba(76, 175, 80, 0.85) !important;
+            border-color: #4caf50 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            opacity: 1 !important;
+        }
+        .btn-dipilih-tidak {
+            background: rgba(244, 67, 54, 0.85) !important;
+            border-color: #f44336 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+            opacity: 1 !important;
+        }
+
+        .pesan {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #ad1457;
+            padding: 16px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(244, 143, 177, 0.2);
+            opacity: 0;
+            transform: translateY(12px) scale(0.96);
+            transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            max-width: 90%;
+        }
+        .pesan.terlihat {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: getarLembut 0.5s ease-out;
+        }
+        @keyframes getarLembut {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-2px) scale(1.01); }
+        }
+
+        .sembunyi {
+            opacity: 0 !important;
+            pointer-events: none;
+            transform: translateY(10px) scale(0.9);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="wadah-animasi" id="wadahAnimasi"></div>
+
+    <div class="hati-latar" style="left:10%;animation-delay:0s;">🤍</div>
+    <div class="hati-latar" style="left:30%;animation-delay:2s;">💕</div>
+    <div class="hati-latar" style="left:50%;animation-delay:4s;">🤍</div>
+    <div class="hati-latar" style="left:70%;animation-delay:1s;">💗</div>
+    <div class="hati-latar" style="left:90%;animation-delay:3s;">🤍</div>
+
+    <div class="w-full max-w-lg">
+        <div id="page-0" class="page active glass">
+            <div class="text-7xl animasi-layang">💌</div>
+            <h1 class="text-3xl font-bold animasi-masuk">Untuk Kamu yang Istimewa</h1>
+            <p class="text-lg opacity-90 animasi-masuk" style="animation-delay:0.2s;">Ada beberapa kata yang sudah lama ingin aku sampaikan... 🤍</p>
+            <button onclick="bukaHalaman(1)" class="btn-jawab animasi-denyut animasi-masuk" style="animation-delay:0.4s;">
+                Buka Hatiku <i class="fa fa-heart ml-2"></i>
+            </button>
+        </div>
+
+        <div id="page-1" class="page glass">
+            <h2 class="text-2xl font-semibold">Aku sungguh menyukaimu...<br>Apakah kamu bersedia menerimaku?</h2>
+            <div class="pilihan">
+                <button id="btn1Ya" onclick="jawabPertama('ya')" class="btn-jawab">Ya, aku mau 💗</button>
+                <button id="btn1Tidak" onclick="jawabPertama('tidak')" class="btn-jawab">Maaf, belum bisa</button>
+            </div>
+            <div id="pesanPertama" class="pesan">Tak apa-apa jika belum siap...<br>Perasaanku tak akan berubah meski harus menunggu 🤍</div>
+        </div>
+
+        <div id="page-2" class="page glass">
+            <h2 class="text-2xl font-semibold">Lalu... apakah kamu juga memiliki perasaan yang sama padaku?</h2>
+            <div class="pilihan">
+                <button id="btn2Ya" onclick="jawabKedua('ya')" class="btn-jawab">Ya, aku juga menyukaimu 🥰</button>
+                <button id="btn2Tidak" onclick="jawabKedua('tidak')" class="btn-jawab">Maaf, hanya sebatas teman</button>
+            </div>
+            <div id="pesanKedua" class="pesan"></div>
+            <button id="tombolTutup" class="btn-jawab sembunyi mt-4" onclick="tutupHalaman()">
+                Selesai <i class="fa fa-heart-o ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const wadah = document.getElementById('wadahAnimasi');
+
+        function tampilkanLove() {
+            wadah.innerHTML = '';
+            const daftarLove = ['❤️', '💕', '💗', '💖', '💘', '🤍', '💝'];
+            for(let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const love = document.createElement('div');
+                    love.className = 'animasi-love';
+                    love.innerText = daftarLove[Math.floor(Math.random() * daftarLove.length)];
+                    love.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    wadah.appendChild(love);
+                    setTimeout(() => love.remove(), 2100);
+                }, i * 80);
+            }
+        }
+
+        // === FUNGSI ANIMASI SEDIH DENGAN EMOJI 😭 ===
+        function tampilkanSedih() {
+            wadah.innerHTML = '';
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sedih = document.createElement('div');
+                    sedih.className = 'animasi-sedih';
+                    sedih.innerText = '😭';
+                    wadah.appendChild(sedih);
+                    setTimeout(() => sedih.remove(), 2600);
+                }, i * 150);
+            }
+        }
+
+        function bukaHalaman(halaman) {
+            document.querySelector('.page.active').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById(`page-${halaman}`).classList.add('active');
+            }, 120);
+        }
+
+        function jawabPertama(jawaban) {
+            document.getElementById('btn1Ya').classList.remove('btn-dipilih-ya', 'btn-dipilih-tidak');
+            document.getElementById('btn1Tidak').classList.remove('btn-dipilih-ya', 'btn-dipilih-tidak');
+            document.getElementById('btn1Ya').style.opacity = '1';
+            document.getElementById('btn1Tidak').style.opacity = '1';
+            document.getElementById('pesanPertama').classList.remove('terlihat');
+
+            if(jawaban === 'ya') {
+                tampilkanLove();
+                document.getElementById('btn1Ya').classList.add('btn-dipilih-ya');
+                document.getElementById('btn1Tidak').style.opacity = '0.5';
+                setTimeout(() => bukaHalaman(2), 600);
+            } else {
+                tampilkanSedih();
+                document.getElementById('btn1Tidak').classList.add('btn-dipilih-tidak');
+                document.getElementById('btn1Ya').style.opacity = '0.5';
+                document.getElementById('pesanPertama').classList.add('terlihat');
+            }
+        }
+
+        function jawabKedua(jawaban) {
+            const pesan = document.getElementById('pesanKedua');
+            const tombol = document.getElementById('tombolTutup');
+
+            document.getElementById('btn2Ya').classList.remove('btn-dipilih-ya', 'btn-dipilih-tidak');
+            document.getElementById('btn2Tidak').classList.remove('btn-dipilih-ya', 'btn-dipilih-tidak');
+            document.getElementById('btn2Ya').style.opacity = '1';
+            document.getElementById('btn2Tidak').style.opacity = '1';
+            pesan.classList.remove('terlihat');
+            tombol.classList.add('sembunyi');
+
+            if(jawaban === 'ya') {
+                tampilkanLove();
+                document.getElementById('btn2Ya').classList.add('btn-dipilih-ya');
+                document.getElementById('btn2Tidak').style.opacity = '0.5';
+                pesan.innerHTML = "Terima kasih... ternyata kita saling merasakan hal yang sama. Aku tak akan menyia-nyiakan ini 🤍";
+                pesan.classList.add('terlihat');
+                setTimeout(() => tombol.classList.remove('sembunyi'), 800);
+            } else {
+                tampilkanSedih();
+                document.getElementById('btn2Tidak').classList.add('btn-dipilih-tidak');
+                document.getElementById('btn2Ya').style.opacity = '0.5';
+                pesan.innerHTML = "Terima kasih sudah jujur... aku menghargai keputusanmu sepenuhnya. Tetaplah bersinar seperti dirimu 🤍";
+                pesan.classList.add('terlihat');
+            }
+        }
+
+        function tutupHalaman() {
+            window.open('', '_self').close();
+            window.close();
+            document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-size:20px;color:#880e4f;text-align:center;padding:20px;line-height:1.8;">Terima kasih telah menjawab dengan tulus.<br>Semoga kebahagiaan selalu menyertaimu 🤍</div>`;
+        }
+    </script>
+</body>
+</html>
